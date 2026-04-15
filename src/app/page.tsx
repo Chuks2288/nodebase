@@ -15,6 +15,8 @@ const Page = () => {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
   const { data } = useQuery(trpc.getWorkflows.queryOptions());
+  const testAi = useMutation(trpc.testAi.mutationOptions());
+
   const create = useMutation(
     trpc.createWorkflow.mutationOptions({
       onSuccess: () => {
@@ -25,18 +27,27 @@ const Page = () => {
 
   return (
     <div className="min-h-screen min-w-screen flex items-center justify-center">
-      protected page
-      {JSON.stringify(data, null, 2)}
-      <Button
-        disabled={create.isPending}
-        onClick={() => create.mutate()}
-        className="ml-4"
-      >
-        Create Workflow
-      </Button>
-      <Button onClick={() => authClient.signOut()} className="ml-4">
-        Sign Out
-      </Button>
+      <div className="flex flex-col space-y-4 items-center justify-center">
+        protected page
+        {JSON.stringify(data, null, 2)}
+        <Button
+          disabled={testAi.isPending}
+          onClick={() => testAi.mutate()}
+          className="mt-4"
+        >
+          Test AI
+        </Button>
+        <Button
+          disabled={create.isPending}
+          onClick={() => create.mutate()}
+          className=""
+        >
+          Create Workflow
+        </Button>
+        <Button onClick={() => authClient.signOut()} className="">
+          Sign Out
+        </Button>
+      </div>
     </div>
   );
 };
